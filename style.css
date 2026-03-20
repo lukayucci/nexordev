@@ -1,0 +1,149 @@
+/* --- VARIABLES GLOBALES --- */
+:root {
+    --bg-color: #000;
+    --text-color: #ffffff;
+}
+
+/* --- RESET BÁSICO --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: 'Inter', system-ui, sans-serif;
+    overflow-x: hidden;
+}
+
+/* --- CLASES DE UTILIDAD (SEO) --- */
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* --- HEADER (BEM) --- */
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: var(--bg-color);
+    backdrop-filter: blur(12px); /* Efecto Glassmorphism */
+    -webkit-backdrop-filter: blur(12px);
+    z-index: 100;
+    transform: translateY(-100%); /* Oculto arriba de la pantalla */
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Modificador de estado para cuando aparece */
+.header--visible {
+    transform: translateY(0);
+}
+
+.header__nav {
+    display: flex;
+    justify-content: space-between; /* Empuja elementos a los bordes */
+    align-items: center;
+    height: 70px;
+    padding: 0 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Menú Hamburguesa */
+.header__menu-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    width: 30px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    padding: 5px; /* Área de click más grande para mobile */
+}
+
+.header__menu-icon,
+.header__menu-icon::before,
+.header__menu-icon::after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 2px;
+    background-color: var(--text-color);
+    position: relative;
+    border-radius: 2px;
+}
+
+.header__menu-icon::before { transform: translateY(-7px); }
+.header__menu-icon::after { transform: translateY(7px); }
+
+/* Logo del Nav */
+.header__logo-link {
+    display: flex;
+    align-items: center;
+    height: 40px;
+}
+
+.header__logo-img {
+    height: 100%;
+    width: auto;
+    object-fit: contain;
+}
+
+.header__spacer {
+    width: 30px; /* Exactamente el mismo ancho que el btn para que el logo quede 100% centrado */
+}
+
+/* --- HERO SECTION (BEM) --- */
+.hero {
+    /* Necesitamos MUCHO espacio para que el scroll tenga recorrido */
+    height: 400vh; 
+    position: relative;
+    background-color: var(--bg-color);
+    opacity: 0.6;
+}
+
+.hero__canvas{
+    mix-blend-mode: screen;
+}
+
+.hero__sticky-container {
+    position: sticky;
+    top: 0;
+    height: 100vh; /* El canvas se queda pegado mientras scrolleamos los 400vh */
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+/* --- SECCIÓN DE RELLENO (Solo para probar el scroll) --- */
+.next-section {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+/* --- MEDIA QUERIES (Desktop First Setup) --- */
+@media (min-width: 768px) {
+    .header__nav {
+        padding: 0 40px;
+    }
+    
+    .hero__video {
+        max-width: 900px; /* Logo más grande en PC */
+    }
+}
