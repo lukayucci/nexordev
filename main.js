@@ -1,139 +1,206 @@
 /**
- * NEXOR - Script de Animación Interactiva
- * Canvas: Partículas de fondo + Secuencia de frames por scroll
+ * NEXOR - Animación interactiva del hero
+ * Canvas con partículas + secuencia de 100 frames controlada por el scroll.
  */
 
-const canvas = document.getElementById("hero-canvas");
-const ctx = canvas.getContext("2d");
-const header = document.getElementById("main-header");
-const heroSection = document.getElementById("hero-section");
+(() => {
+    "use strict";
 
-// --- CONFIGURACIÓN ---
-const frameCount = 100; // Tus 120 frames de ezgif
-const images = [];
-const particles = [];
-let currentFrame = 0;
-let scrollFraction = 0;
+    const canvas = document.getElementById("hero-canvas");
+    const video = document.getElementById("hero-video");
+    const header = document.getElementById("main-header");
+    const heroSection = document.querySelector(".hero");
+    const heroContent = document.getElementById("hero-content");
+    const menuBtn = document.getElementById("menu-btn");
+    const menu = document.getElementById("main-menu");
 
-// 1. AJUSTE DE TAMAÑO (Responsive)
-function resize() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-}
-window.addEventListener('resize', resize);
-resize();
+    const FRAME_COUNT = 100; // frames/ezgif-frame-001.jpg ... ezgif-frame-100.jpg
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const images = [];
+    const particles = [];
+    let currentFrame = 0;
+    let scrollFraction = 0;
+    let ticking = false;
 
-// 2. PRE-CARGA DE IMÁGENES
-// Cargamos ezgif-frame-001.jpg hasta ezgif-frame-120.jpg
-for (let i = 1; i <= frameCount; i++) {
-    const img = new Image();
-    const fileName = `ezgif-frame-${i.toString().padStart(3, '0')}.jpg`;
-    img.src = `frames/${fileName}`;
-    images.push(img);
-    
-    img.onerror = () => console.error(`Error cargando: ${img.src}. Revisá nombres y ruta.`);
-}
-
-// 3. LÓGICA DE PARTÍCULAS (Sistema de Red/Constelación)
-class Particle {
-    constructor() {
-        this.init();
+    // --- Menú ---
+    function setMenu(open) {
+        if (!menu || !menuBtn) return;
+        menu.classList.toggle("header__menu--open", open);
+        menuBtn.setAttribute("aria-expanded", String(open));
+        menuBtn.setAttribute("aria-label", open ? "Cerrar menú" : "Abrir menú");
     }
-    init() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
-        this.size = Math.random() * 1.5 + 0.5;
-        this.speedX = (Math.random() - 0.5) * 0.8;
-        this.speedY = (Math.random() - 0.5) * 0.8;
+
+    if (menuBtn && menu) {
+        menuBtn.addEventListener("click", () => {
+            setMenu(!menu.classList.contains("header__menu--open"));
+        });
+        menu.querySelectorAll("a").forEach((link) => {
+            link.addEventListener("click", () => setMenu(false));
+        });
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "Escape") setMenu(false);
+        });
     }
-    update() {
-        this.x += this.speedX;
-        this.y += this.speedY;
 
-        // Rebote suave en los bordes
-        if (this.x > canvas.width || this.x < 0) this.speedX *= -1;
-        if (this.y > canvas.height || this.y < 0) this.speedY *= -1;
+    // --- Canvas, con video como fallback ---
+    const ctx = canvas ? canvas.getContext("2d") : null;
+    if (!ctx) {
+        if (canvas) canvas.style.display = "none";
+        if (video) video.style.display = "block";
+    } else if (video) {
+        video.pause();
+        video.style.display = "none";
     }
-    draw() {
-        ctx.fillStyle = "rgba(140, 82, 255, 0.4)"; // Violeta Nexor traslúcido
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fill();
-    }
-}
 
-// Creamos unas 70 partículas para no sobrecargar el procesador
-for (let i = 0; i < 70; i++) {
-    particles.push(new Particle());
-}
-
-// 4. FUNCIÓN DE RENDERIZADO (Loop Principal)
-function render() {
-    // Limpiamos el canvas en cada frame
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    // DIBUJAR FONDO: Partículas y Líneas
-    particles.forEach((p, index) => {
-        p.update();
-        p.draw();
-
-        // Dibujar líneas entre partículas cercanas
-        for (let j = index + 1; j < particles.length; j++) {
-            const p2 = particles[j];
-            const dx = p.x - p2.x;
-            const dy = p.y - p2.y;
-            const distance = Math.sqrt(dx * dx + dy * dy);
-
-            if (distance < 120) {
-                ctx.strokeStyle = `rgba(140, 82, 255, ${0.2 - distance / 600})`;
-                ctx.lineWidth = 0.5;
-                ctx.beginPath();
-                ctx.moveTo(p.x, p.y);
-                ctx.lineTo(p2.x, p2.y);
-                ctx.stroke();
-            }
+    // --- Partículas ---
+    class Particle {
+        constructor() {
+            this.init();
         }
-    });
 
-    // DIBUJAR LOGO: El frame actual basado en el scroll
-    const img = images[currentFrame];
-    if (img && img.complete) {
-        // Mantenemos el aspecto ratio y centramos
-        const scale = Math.min(canvas.width / img.width, canvas.height / img.height) * 0.88;
-        const w = img.width * scale;
-        const h = img.height * scale;
-        const x = (canvas.width - w) / 2;
-        const y = (canvas.height - h) / 2;
-        
-        ctx.drawImage(img, x, y, w, h);
+        init() {
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height;
+            this.size = Math.random() * 1.5 + 0.5;
+            this.speedX = (Math.random() - 0.5) * 0.8;
+            this.speedY = (Math.random() - 0.5) * 0.8;
+        }
+
+        update() {
+            this.x += this.speedX;
+            this.y += this.speedY;
+            if (this.x > canvas.width || this.x < 0) this.speedX *= -1;
+            if (this.y > canvas.height || this.y < 0) this.speedY *= -1;
+        }
+
+        draw() {
+            ctx.fillStyle = "rgba(140, 82, 255, 0.45)";
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.fill();
+        }
     }
 
-    requestAnimationFrame(render);
-}
-
-// 5. CONTROL DE SCROLL (Manejo de estados)
-window.addEventListener('scroll', () => {
-    const scrollTop = window.scrollY;
-    const maxScroll = heroSection.offsetHeight - window.innerHeight;
-    
-    // Calculamos el progreso (0 a 1)
-    scrollFraction = Math.max(0, Math.min(1, scrollTop / maxScroll));
-
-    // Mapeamos el progreso a los 120 frames
-    const frameIndex = Math.floor(scrollFraction * (frameCount - 1));
-    currentFrame = frameIndex;
-
-    // Lógica visual del Header y Fade del Canvas al final del scroll
-    if (scrollFraction > 0.95) {
-        // Aparece el Header con facha
-        header.classList.add('header--visible');
-        // El canvas se desvanece rápido para dar paso al contenido
-        canvas.style.opacity = (1 - (scrollFraction - 0.95) * 20).toString();
-    } else {
-        header.classList.remove('header--visible');
-        canvas.style.opacity = "1";
+    function initParticles() {
+        particles.length = 0;
+        const count = window.innerWidth < 768 ? 40 : 70;
+        for (let i = 0; i < count; i++) particles.push(new Particle());
     }
-});
 
-// Arrancamos la magia
-render();
+    // --- Precarga de frames ---
+    for (let i = 1; i <= FRAME_COUNT; i++) {
+        const img = new Image();
+        img.onload = () => {
+            if (reduceMotion) drawScene(false);
+        };
+        img.onerror = () => console.warn(`No se pudo cargar el frame ${i}.`);
+        img.src = `frames/ezgif-frame-${String(i).padStart(3, "0")}.jpg`;
+        images.push(img);
+    }
+
+    // --- Dibujo ---
+    function drawScene(animate) {
+        if (!ctx) return;
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        particles.forEach((particle, index) => {
+            if (animate) particle.update();
+            particle.draw();
+
+            for (let j = index + 1; j < particles.length; j++) {
+                const other = particles[j];
+                const dx = particle.x - other.x;
+                const dy = particle.y - other.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+
+                if (distance < 120) {
+                    ctx.strokeStyle = `rgba(140, 82, 255, ${Math.max(0, 0.2 - distance / 600)})`;
+                    ctx.lineWidth = 0.5;
+                    ctx.beginPath();
+                    ctx.moveTo(particle.x, particle.y);
+                    ctx.lineTo(other.x, other.y);
+                    ctx.stroke();
+                }
+            }
+        });
+
+        const img = images[currentFrame];
+        const cx = canvas.width / 2;
+        const cy = canvas.height / 2;
+
+        if (img && img.complete && img.naturalWidth > 0) {
+            const scale = Math.min(canvas.width / img.width, canvas.height / img.height) * 0.88;
+            const w = img.width * scale;
+            const h = img.height * scale;
+            ctx.drawImage(img, cx - w / 2, cy - h / 2, w, h);
+        } else {
+            // Placeholder mientras cargan los frames
+            const radius = Math.min(canvas.width, canvas.height) * 0.16;
+            ctx.fillStyle = "rgba(140, 82, 255, 0.25)";
+            ctx.beginPath();
+            ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.fillStyle = "rgba(255, 255, 255, 0.75)";
+            ctx.font = `600 ${Math.max(12, radius * 0.16)}px system-ui, sans-serif`;
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.fillText("NEXOR", cx, cy);
+        }
+    }
+
+    function loop() {
+        drawScene(true);
+        requestAnimationFrame(loop);
+    }
+
+    // --- Scroll ---
+    function updateFromScroll() {
+        const heroHeight = heroSection ? heroSection.offsetHeight : window.innerHeight * 4;
+        const maxScroll = Math.max(1, heroHeight - window.innerHeight);
+        scrollFraction = Math.max(0, Math.min(1, window.scrollY / maxScroll));
+        currentFrame = Math.floor(scrollFraction * (FRAME_COUNT - 1));
+
+        const fadeStart = 0.86;
+        const fade = scrollFraction > fadeStart
+            ? Math.max(0, 1 - (scrollFraction - fadeStart) / (1 - fadeStart))
+            : 1;
+
+        if (canvas) canvas.style.opacity = String(fade);
+        if (heroContent) {
+            heroContent.style.opacity = String(fade);
+            heroContent.style.transform = `translateY(${((1 - fade) * -24).toFixed(1)}px)`;
+            heroContent.style.pointerEvents = fade < 0.1 ? "none" : "auto";
+        }
+
+        const showHeader = window.scrollY < 10 || scrollFraction > 0.95;
+        if (header) header.classList.toggle("header--visible", showHeader);
+        if (!showHeader) setMenu(false);
+
+        if (reduceMotion) drawScene(false);
+    }
+
+    function resize() {
+        if (!ctx) return;
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        initParticles();
+        drawScene(false);
+    }
+
+    // --- Arranque ---
+    resize();
+    updateFromScroll();
+    window.addEventListener("resize", resize);
+    window.addEventListener("scroll", () => {
+        if (!ticking) {
+            ticking = true;
+            requestAnimationFrame(() => {
+                updateFromScroll();
+                ticking = false;
+            });
+        }
+    }, { passive: true });
+
+    if (!reduceMotion && ctx) requestAnimationFrame(loop);
+})();

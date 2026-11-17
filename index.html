@@ -4,41 +4,149 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nexor | Innovación Tecnológica</title>
-    <meta name="description" content="Nexor: Soluciones tecnológicas innovadoras y desarrollo web avanzado.">
+    <meta name="description" content="Nexor: desarrollo web avanzado, automatización e IA para empresas que quieren ir un paso adelante.">
+    <meta name="theme-color" content="#000000">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+    <a class="skip-link" href="#contenido">Saltar al contenido</a>
+
     <header class="header" id="main-header">
         <nav class="header__nav" aria-label="Navegación principal">
-            
-            <button class="header__menu-btn" aria-label="Abrir menú">
-                <span class="header__menu-icon"></span>
+            <button class="header__menu-btn" id="menu-btn" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="main-menu">
+                <span class="header__menu-icon" aria-hidden="true"></span>
             </button>
 
-            <a href="#" class="header__logo-link" aria-label="Volver al inicio">
+            <a href="#inicio" class="header__logo-link" aria-label="Nexor, volver al inicio">
                 <img src="ANIMACIONES/X-logo.png" alt="Logo de Nexor" class="header__logo-img">
             </a>
 
-            <div class="header__spacer" aria-hidden="true"></div> 
+            <div class="header__spacer" aria-hidden="true"></div>
+
+            <ul class="header__menu" id="main-menu" aria-label="Menú principal">
+                <li><a href="#servicios">Servicios</a></li>
+                <li><a href="#proyectos">Proyectos</a></li>
+                <li><a href="#nosotros">Nosotros</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
         </nav>
     </header>
 
-    <main class="main-content">
-        <section class="hero" id="hero-section">
+    <main class="main-content" id="contenido">
+        <section class="hero" id="inicio" aria-labelledby="hero-title">
             <div class="hero__sticky-container">
-                <canvas id="hero-canvas"></canvas>
-                <h1 class="visually-hidden">Nexor - Innovación Tecnológica</h1>
+                <canvas id="hero-canvas" aria-hidden="true"></canvas>
+                <video class="hero__video" id="hero-video" autoplay muted loop playsinline aria-hidden="true">
+                    <source src="ANIMACIONES/2a2d767e-b33f-4c46-bd95-76b78cad05da.mp4" type="video/mp4">
+                </video>
+
+                <div class="hero__content" id="hero-content">
+                    <p class="hero__kicker">Nexor · Innovación Tecnológica</p>
+                    <h1 class="hero__title" id="hero-title">Construimos lo que viene.</h1>
+                    <p class="hero__subtitle">Desarrollo web avanzado, automatización e inteligencia artificial para empresas que quieren ir un paso adelante.</p>
+                    <div class="hero__actions">
+                        <a class="btn btn--primary" href="#servicios">Explorar servicios</a>
+                        <a class="btn btn--ghost" href="#proyectos">Ver proyectos</a>
+                    </div>
+                    <p class="hero__hint" aria-hidden="true">Scroll para descubrir <span>↓</span></p>
+                </div>
             </div>
         </section>
 
-        <section class="next-section">
+        <section class="section intro" id="intro">
             <div class="container">
-                <h2>El futuro empieza acá</h2>
-                <p>Acá irá el resto de tu contenido...</p>
+                <p class="section__kicker">Quiénes somos</p>
+                <h2 id="intro-title">El futuro empieza acá.</h2>
+                <p class="section__lead">Somos un equipo enfocado en convertir ideas complejas en productos digitales simples, rápidos y escalables. Trabajamos con tecnología de punta, pero sobre todo con una idea clara: que lo que construimos sirva de verdad a las personas que lo usan.</p>
+            </div>
+        </section>
+
+        <section class="section servicios" id="servicios" aria-labelledby="servicios-title">
+            <div class="container">
+                <p class="section__kicker">Servicios</p>
+                <h2 id="servicios-title">Lo que hacemos</h2>
+                <div class="cards">
+                    <article class="card">
+                        <span class="card__num">01</span>
+                        <h3>Desarrollo web a medida</h3>
+                        <p>Sitios y aplicaciones rápidas, accesibles y pensadas para crecer. Del diseño al deploy, sin atajos que después haya que pagar.</p>
+                        <span class="card__tag">Frontend · Backend · Cloud</span>
+                    </article>
+                    <article class="card">
+                        <span class="card__num">02</span>
+                        <h3>Automatización e IA</h3>
+                        <p>Integramos inteligencia artificial y flujos automáticos a tus procesos para ahorrar tiempo y tomar mejores decisiones.</p>
+                        <span class="card__tag">IA · Integraciones · Datos</span>
+                    </article>
+                    <article class="card">
+                        <span class="card__num">03</span>
+                        <h3>Consultoría técnica</h3>
+                        <p>Acompañamos tu equipo en la arquitectura, las decisiones tecnológicas y la evolución de tus productos digitales.</p>
+                        <span class="card__tag">Arquitectura · Code review</span>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="section proyectos" id="proyectos" aria-labelledby="proyectos-title">
+            <div class="container">
+                <p class="section__kicker">Proyectos</p>
+                <h2 id="proyectos-title">Trabajos que hablan por sí solos</h2>
+                <div class="cards">
+                    <article class="card">
+                        <span class="card__num">01</span>
+                        <h3>CRM Inmobiliario</h3>
+                        <p>Plataforma para gestionar propiedades, pipeline de ventas y clientes, con API própria y despliegue containerizado.</p>
+                        <span class="card__tag">Node · Postgres · Docker</span>
+                    </article>
+                    <article class="card">
+                        <span class="card__num">02</span>
+                        <h3>Shadow IT Finder</h3>
+                        <p>Herramienta de auditoría defensiva que detecta exposición de datos y sistemas shadow con reportes automáticos.</p>
+                        <span class="card__tag">Python · OSINT · IA</span>
+                    </article>
+                    <article class="card">
+                        <span class="card__num">03</span>
+                        <h3>Nexor</h3>
+                        <p>Esta experiencia: una intro inmersiva basada en scroll, canvas y secuencias de frames que presentan la marca.</p>
+                        <span class="card__tag">Canvas · Scroll · Motion</span>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="section nosotros" id="nosotros" aria-labelledby="nosotros-title">
+            <div class="container">
+                <p class="section__kicker">Nosotros</p>
+                <h2 id="nosotros-title">Tecnología con criterio</h2>
+                <p class="section__lead">No seguimos tendencias por seguirlas. Elegimos las herramientas que resuelven el problema y construimos con la mirada puesta en el largo plazo: código mantenible, rendimiento real y experiencias que se sientan bien.</p>
+                <div class="stats">
+                    <div class="stat"><strong>20+</strong><span>Proyectos entregados</span></div>
+                    <div class="stat"><strong>5+</strong><span>Años de experiencia</span></div>
+                    <div class="stat"><strong>100%</strong><span>Compromiso con cada entrega</span></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section contacto" id="contacto" aria-labelledby="contacto-title">
+            <div class="container">
+                <p class="section__kicker">Contacto</p>
+                <h2 id="contacto-title">¿Arrancamos?</h2>
+                <div class="contact-card">
+                    <p>Contanos qué querés construir. Te respondemos con una propuesta concreta, sin vueltas y sin compromiso.</p>
+                    <a class="btn btn--primary" href="mailto:contacto@nexordev.com?subject=Consulta%20desde%20la%20web">Escribinos</a>
+                </div>
             </div>
         </section>
     </main>
+
+    <footer class="footer">
+        <div class="container footer__inner">
+            <span>© 2026 Nexor. Todos los derechos reservados.</span>
+            <a href="#inicio">Volver arriba ↑</a>
+        </div>
+    </footer>
 
     <script src="main.js"></script>
 </body>
