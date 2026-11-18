@@ -5,7 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nexor | Innovación Tecnológica</title>
     <meta name="description" content="Nexor: desarrollo web avanzado, automatización e IA para empresas que quieren ir un paso adelante.">
-    <meta name="theme-color" content="#000000">
+    <meta name="theme-color" content="#0b0b0d">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -42,14 +45,23 @@
                 </video>
 
                 <div class="hero__content" id="hero-content">
-                    <p class="hero__kicker">Nexor · Innovación Tecnológica</p>
-                    <h1 class="hero__title" id="hero-title">Construimos lo que viene.</h1>
-                    <p class="hero__subtitle">Desarrollo web avanzado, automatización e inteligencia artificial para empresas que quieren ir un paso adelante.</p>
-                    <div class="hero__actions">
-                        <a class="btn btn--primary" href="#servicios">Explorar servicios</a>
-                        <a class="btn btn--ghost" href="#proyectos">Ver proyectos</a>
+                    <div class="hero__meta" data-hero-layer="0">
+                        <span class="hero__brand">Nexor</span>
+                        <span class="hero__counter" aria-hidden="true">
+                            <span data-frame-counter>001</span><span class="hero__counter-total"> / 100</span>
+                        </span>
                     </div>
-                    <p class="hero__hint" aria-hidden="true">Scroll para descubrir <span>↓</span></p>
+
+                    <h1 class="hero__title" id="hero-title" data-hero-layer="1">
+                        <span>Construimos</span>
+                        <span>lo que</span>
+                        <span>viene.</span>
+                    </h1>
+
+                    <div class="hero__side" data-hero-layer="2">
+                        <p class="hero__lead">Hacemos sitios y productos que funcionan de verdad. Claros, rápidos y hechos para durar.</p>
+                        <a class="hero__cta" href="#proyectos">Ver los proyectos <span aria-hidden="true">↗</span></a>
+                    </div>
                 </div>
             </div>
         </section>

@@ -11,6 +11,8 @@
     const header = document.getElementById("main-header");
     const heroSection = document.querySelector(".hero");
     const heroContent = document.getElementById("hero-content");
+    const frameCounter = document.querySelector("[data-frame-counter]");
+    const heroLayers = Array.from(document.querySelectorAll("[data-hero-layer]"));
     const menuBtn = document.getElementById("menu-btn");
     const menu = document.getElementById("main-menu");
 
@@ -74,7 +76,7 @@
         }
 
         draw() {
-            ctx.fillStyle = "rgba(140, 82, 255, 0.45)";
+            ctx.fillStyle = "rgba(255, 92, 53, 0.5)";
             ctx.beginPath();
             ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
             ctx.fill();
@@ -115,7 +117,7 @@
                 const distance = Math.sqrt(dx * dx + dy * dy);
 
                 if (distance < 120) {
-                    ctx.strokeStyle = `rgba(140, 82, 255, ${Math.max(0, 0.2 - distance / 600)})`;
+                    ctx.strokeStyle = `rgba(255, 92, 53, ${Math.max(0, 0.2 - distance / 600)})`;
                     ctx.lineWidth = 0.5;
                     ctx.beginPath();
                     ctx.moveTo(particle.x, particle.y);
@@ -137,7 +139,7 @@
         } else {
             // Placeholder mientras cargan los frames
             const radius = Math.min(canvas.width, canvas.height) * 0.16;
-            ctx.fillStyle = "rgba(140, 82, 255, 0.25)";
+            ctx.fillStyle = "rgba(255, 92, 53, 0.16)";
             ctx.beginPath();
             ctx.arc(cx, cy, radius, 0, Math.PI * 2);
             ctx.fill();
@@ -166,10 +168,20 @@
             ? Math.max(0, 1 - (scrollFraction - fadeStart) / (1 - fadeStart))
             : 1;
 
+        if (frameCounter) {
+            frameCounter.textContent = String(currentFrame + 1).padStart(3, "0");
+        }
+
         if (canvas) canvas.style.opacity = String(fade);
+
+        heroLayers.forEach((layer, index) => {
+            const speed = [0.35, 0.75, 1.15][index] ?? 1;
+            const shift = reduceMotion ? 0 : -scrollFraction * 44 * speed;
+            layer.style.transform = `translate3d(0, ${shift.toFixed(1)}px, 0)`;
+        });
+
         if (heroContent) {
             heroContent.style.opacity = String(fade);
-            heroContent.style.transform = `translateY(${((1 - fade) * -24).toFixed(1)}px)`;
             heroContent.style.pointerEvents = fade < 0.1 ? "none" : "auto";
         }
 
