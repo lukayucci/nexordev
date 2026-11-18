@@ -26,3 +26,9 @@ test('el logo es inline, sin imagen', () => {
   assert.match(heroHeader, /<svg/);
   assert.doesNotMatch(heroHeader, /<img/);
 });
+
+test('el canvas de partículas está debajo del contenido y no intercepta el mouse', () => {
+  assert.match(html, /id="particle-canvas"/);
+  assert.match(css, /\.hero__canvas\s*\{[^}]*pointer-events:\s*none/);
+  assert.match(html, /src="particles\.js"/);
+});

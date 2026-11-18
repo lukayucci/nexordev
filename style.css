@@ -221,7 +221,7 @@ a {
 
 .hero__content {
     position: relative;
-    z-index: 2;
+    z-index: 1;
     width: min(calc(100% - 48px), 1240px);
     height: 100%;
     margin: 0 auto;

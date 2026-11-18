@@ -9,7 +9,7 @@
     const header = document.getElementById("main-header");
     const heroSection = document.querySelector(".hero");
     const heroContent = document.getElementById("hero-content");
-    const heroCanvas = document.getElementById("hero-canvas");
+    const heroCanvas = document.getElementById("particle-canvas");
     const progressCounter = document.querySelector("[data-progress-counter]");
     const heroLayers = Array.from(document.querySelectorAll("[data-hero-layer]"));
     const menuBtn = document.getElementById("menu-btn");
@@ -96,4 +96,10 @@
             });
         }
     }, { passive: true });
+
+    // --- Campo de partículas del hero ---
+    if (heroCanvas && typeof window.createParticleField === "function") {
+        const field = window.createParticleField(heroCanvas, { reducedMotion });
+        field.start();
+    }
 })();
