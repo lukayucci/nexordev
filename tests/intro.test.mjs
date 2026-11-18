@@ -32,3 +32,18 @@ test('el canvas de partículas está debajo del contenido y no intercepta el mou
   assert.match(css, /\.hero__canvas\s*\{[^}]*pointer-events:\s*none/);
   assert.match(html, /src="particles\.js"/);
 });
+
+test('mantiene la paleta y el foco visible', () => {
+  assert.match(css, /--accent:\s*#8c52ff/i);
+  assert.match(css, /--bg-color:\s*#000000/i);
+  assert.match(css, /:focus-visible/);
+});
+
+test('el reveal arranca oculto y se muestra con is-visible', () => {
+  assert.match(css, /\[data-reveal\][\s\S]*opacity:\s*0/);
+  assert.match(css, /\.is-visible[\s\S]*opacity:\s*1/);
+});
+
+test('respeta prefers-reduced-motion', () => {
+  assert.match(css, /@media\s*\(prefers-reduced-motion:\s*reduce\)/);
+});
