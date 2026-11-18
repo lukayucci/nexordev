@@ -84,7 +84,7 @@ function setup({ reduceMotion = false } = {}) {
     flushRaf();
   }
 
-  return { counter, layers, canvas, heroContent, scrollTo };
+  return { counter, layers, canvas, heroContent, window, scrollTo };
 }
 
 test('el scroll mueve el contador y aplica parallax por capas', () => {
@@ -94,10 +94,19 @@ test('el scroll mueve el contador y aplica parallax por capas', () => {
   assert.equal(counter.textContent, '067');
   const shifts = layers.map((layer) => layer.style.transform);
   assert.deepEqual(shifts, [
-    'translate3d(0, -10.3px, 0)',
-    'translate3d(0, -22.0px, 0)',
-    'translate3d(0, -33.7px, 0)',
+    'translate3d(0, -8.7px, 0)',
+    'translate3d(0, -15.6px, 0)',
+    'translate3d(0, -22.5px, 0)',
   ]);
+});
+
+test('el estado del scroll se publica para la escena 3D', () => {
+  const { window: fakeWindow, scrollTo } = setup();
+  scrollTo(2000);
+
+  assert.ok(Math.abs(fakeWindow.nexorState.fraction - 2 / 3) < 0.001);
+  assert.equal(fakeWindow.nexorState.frame, 66);
+  assert.equal(typeof fakeWindow.nexorState.mouseX, 'number');
 });
 
 test('al final del hero el contenido desaparece y deja de ser clicable', () => {

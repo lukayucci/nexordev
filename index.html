@@ -5,10 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nexor | Innovación Tecnológica</title>
     <meta name="description" content="Nexor: desarrollo web avanzado, automatización e IA para empresas que quieren ir un paso adelante.">
-    <meta name="theme-color" content="#0b0b0d">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    <meta name="theme-color" content="#000000">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -39,10 +36,10 @@
     <main class="main-content" id="contenido">
         <section class="hero" id="inicio" aria-labelledby="hero-title">
             <div class="hero__sticky-container">
-                <canvas id="hero-canvas" aria-hidden="true"></canvas>
                 <video class="hero__video" id="hero-video" autoplay muted loop playsinline aria-hidden="true">
                     <source src="ANIMACIONES/2a2d767e-b33f-4c46-bd95-76b78cad05da.mp4" type="video/mp4">
                 </video>
+                <canvas class="hero__canvas" id="hero-canvas" aria-hidden="true"></canvas>
 
                 <div class="hero__content" id="hero-content">
                     <div class="hero__meta" data-hero-layer="0">
@@ -54,12 +51,11 @@
 
                     <h1 class="hero__title" id="hero-title" data-hero-layer="1">
                         <span>Construimos</span>
-                        <span>lo que</span>
-                        <span>viene.</span>
+                        <span>lo que viene.</span>
                     </h1>
 
                     <div class="hero__side" data-hero-layer="2">
-                        <p class="hero__lead">Hacemos sitios y productos que funcionan de verdad. Claros, rápidos y hechos para durar.</p>
+                        <p class="hero__lead">Desarrollo web avanzado, automatización e inteligencia artificial para empresas que quieren ir un paso adelante.</p>
                         <a class="hero__cta" href="#proyectos">Ver los proyectos <span aria-hidden="true">↗</span></a>
                     </div>
                 </div>
@@ -121,8 +117,8 @@
                     <article class="card">
                         <span class="card__num">03</span>
                         <h3>Nexor</h3>
-                        <p>Esta experiencia: una intro inmersiva basada en scroll, canvas y secuencias de frames que presentan la marca.</p>
-                        <span class="card__tag">Canvas · Scroll · Motion</span>
+                        <p>Esta experiencia: una intro inmersiva basada en scroll, WebGL y secuencias de frames que presentan la marca.</p>
+                        <span class="card__tag">Three.js · Scroll · Motion</span>
                     </article>
                 </div>
             </div>
@@ -161,5 +157,6 @@
     </footer>
 
     <script src="main.js"></script>
+    <script type="module" src="scene.js"></script>
 </body>
 </html>
