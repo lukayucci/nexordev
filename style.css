@@ -88,13 +88,7 @@ a {
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     z-index: 100;
-    transform: translateY(-100%);
-    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
     border-bottom: 1px solid var(--line);
-}
-
-.header--visible {
-    transform: translateY(0);
 }
 
 .header__nav {
@@ -153,10 +147,18 @@ a {
     height: 40px;
 }
 
-.header__logo-img {
-    height: 100%;
-    width: auto;
-    object-fit: contain;
+.header__logo-mark {
+    height: 26px;
+    width: 26px;
+    color: var(--accent);
+    filter: drop-shadow(0 0 8px rgba(140, 82, 255, 0.55));
+}
+
+.header__logo-word {
+    margin-left: 10px;
+    font-size: 1rem;
+    font-weight: 800;
+    letter-spacing: 0.22em;
 }
 
 .header__spacer {
@@ -201,38 +203,20 @@ a {
 
 /* --- HERO --- */
 .hero {
-    height: 400vh;
     position: relative;
-    background: transparent;
-}
-
-.hero__sticky-container {
-    position: sticky;
-    top: 0;
     height: 100vh;
-    width: 100%;
+    min-height: 100vh;
     overflow: hidden;
-    background: transparent;
+    background-color: var(--bg-color);
 }
 
-.hero__canvas,
-.hero__video {
+.hero__canvas {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
     z-index: 0;
-}
-
-.hero__canvas {
-    display: none;
-    z-index: 1;
     pointer-events: none;
-}
-
-.hero__video {
-    display: block;
-    object-fit: cover;
 }
 
 .hero__content {
@@ -273,13 +257,30 @@ a {
     text-transform: uppercase;
 }
 
-.hero__counter {
-    font-variant-numeric: tabular-nums;
-    color: var(--accent);
+.hero__edition {
+    color: var(--muted);
 }
 
-.hero__counter-total {
+.hero__scroll {
+    position: absolute;
+    bottom: clamp(28px, 5vh, 56px);
+    right: max(24px, calc((100% - 1240px) / 2));
+    display: flex;
+    align-items: center;
+    gap: 12px;
     color: var(--muted);
+    font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.16em;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+.hero__scroll-line {
+    display: block;
+    width: 46px;
+    height: 1px;
+    background: linear-gradient(90deg, var(--accent), transparent);
 }
 
 .hero__title {

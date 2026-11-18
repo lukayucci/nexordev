@@ -19,7 +19,10 @@
             </button>
 
             <a href="#inicio" class="header__logo-link" aria-label="Nexor, volver al inicio">
-                <img src="ANIMACIONES/X-logo.png" alt="Logo de Nexor" class="header__logo-img">
+                <svg class="header__logo-mark" viewBox="0 0 40 40" aria-hidden="true">
+                    <path d="M7 7 L33 33 M33 7 L7 33" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" />
+                </svg>
+                <span class="header__logo-word">NEXOR</span>
             </a>
 
             <div class="header__spacer" aria-hidden="true"></div>
@@ -35,35 +38,33 @@
 
     <main class="main-content" id="contenido">
         <section class="hero" id="inicio" aria-labelledby="hero-title">
-            <div class="hero__sticky-container">
-                <video class="hero__video" id="hero-video" autoplay muted loop playsinline aria-hidden="true">
-                    <source src="ANIMACIONES/2a2d767e-b33f-4c46-bd95-76b78cad05da.mp4" type="video/mp4">
-                </video>
-                <canvas class="hero__canvas" id="hero-canvas" aria-hidden="true"></canvas>
+            <canvas class="hero__canvas" id="particle-canvas" aria-hidden="true"></canvas>
 
-                <div class="hero__content" id="hero-content">
-                    <div class="hero__meta" data-hero-layer="0">
-                        <span class="hero__brand">Nexor</span>
-                        <span class="hero__counter" aria-hidden="true">
-                            <span data-progress-counter>000</span><span class="hero__counter-total">%</span>
-                        </span>
-                    </div>
-
-                    <h1 class="hero__title" id="hero-title" data-hero-layer="1">
-                        <span>Construimos</span>
-                        <span>lo que viene.</span>
-                    </h1>
-
-                    <div class="hero__side" data-hero-layer="2">
-                        <p class="hero__lead">Desarrollo web avanzado, automatización e inteligencia artificial para empresas que quieren ir un paso adelante.</p>
-                        <a class="hero__cta" href="#proyectos">Ver los proyectos <span aria-hidden="true">↗</span></a>
-                    </div>
+            <div class="hero__content" id="hero-content">
+                <div class="hero__meta" data-hero-layer="0">
+                    <span class="hero__brand">Nexor</span>
+                    <span class="hero__edition">Estudio digital · 2026</span>
                 </div>
+
+                <h1 class="hero__title" id="hero-title" data-hero-layer="1">
+                    <span>Construimos</span>
+                    <span>lo que viene.</span>
+                </h1>
+
+                <div class="hero__side" data-hero-layer="2">
+                    <p class="hero__lead">Desarrollo web avanzado, automatización e inteligencia artificial para empresas que quieren ir un paso adelante.</p>
+                    <a class="hero__cta" href="#proyectos">Ver los proyectos <span aria-hidden="true">↗</span></a>
+                </div>
+
+                <a class="hero__scroll" data-scroll-indicator href="#intro" aria-label="Ir al contenido">
+                    <span>Descubrir</span>
+                    <span class="hero__scroll-line" aria-hidden="true"></span>
+                </a>
             </div>
         </section>
 
         <section class="section intro" id="intro">
-            <div class="container">
+            <div class="container" data-reveal>
                 <p class="section__kicker">Quiénes somos</p>
                 <h2 id="intro-title">El futuro empieza acá.</h2>
                 <p class="section__lead">Somos un equipo enfocado en convertir ideas complejas en productos digitales simples, rápidos y escalables. Trabajamos con tecnología de punta, pero sobre todo con una idea clara: que lo que construimos sirva de verdad a las personas que lo usan.</p>
@@ -71,7 +72,7 @@
         </section>
 
         <section class="section servicios" id="servicios" aria-labelledby="servicios-title">
-            <div class="container">
+            <div class="container" data-reveal>
                 <p class="section__kicker">Servicios</p>
                 <h2 id="servicios-title">Lo que hacemos</h2>
                 <div class="cards">
@@ -98,7 +99,7 @@
         </section>
 
         <section class="section proyectos" id="proyectos" aria-labelledby="proyectos-title">
-            <div class="container">
+            <div class="container" data-reveal>
                 <p class="section__kicker">Proyectos</p>
                 <h2 id="proyectos-title">Trabajos que hablan por sí solos</h2>
                 <div class="cards">
@@ -117,15 +118,15 @@
                     <article class="card">
                         <span class="card__num">03</span>
                         <h3>Nexor</h3>
-                        <p>Esta experiencia: una X tecnológica que, con el scroll, se transforma en la palabra NEXOR sobre un canvas transparente.</p>
-                        <span class="card__tag">Three.js · Scroll · Motion</span>
+                        <p>Esta experiencia: un campo de partículas que sigue el mouse y se agrupa alrededor del cursor en tiempo real.</p>
+                        <span class="card__tag">Canvas · Partículas · Motion</span>
                     </article>
                 </div>
             </div>
         </section>
 
         <section class="section nosotros" id="nosotros" aria-labelledby="nosotros-title">
-            <div class="container">
+            <div class="container" data-reveal>
                 <p class="section__kicker">Nosotros</p>
                 <h2 id="nosotros-title">Tecnología con criterio</h2>
                 <p class="section__lead">No seguimos tendencias por seguirlas. Elegimos las herramientas que resuelven el problema y construimos con la mirada puesta en el largo plazo: código mantenible, rendimiento real y experiencias que se sientan bien.</p>
@@ -138,7 +139,7 @@
         </section>
 
         <section class="section contacto" id="contacto" aria-labelledby="contacto-title">
-            <div class="container">
+            <div class="container" data-reveal>
                 <p class="section__kicker">Contacto</p>
                 <h2 id="contacto-title">¿Arrancamos?</h2>
                 <div class="contact-card">
@@ -157,6 +158,5 @@
     </footer>
 
     <script src="main.js"></script>
-    <script type="module" src="scene.js"></script>
 </body>
 </html>
