@@ -222,6 +222,7 @@ a {
     height: 100%;
     z-index: 0;
     pointer-events: none;
+    touch-action: none;
 }
 
 .hero__content {

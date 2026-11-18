@@ -90,6 +90,15 @@ test('al salir el mouse las partículas vuelven a su base', () => {
   }
 });
 
+test('pointerdown activa el imán en touch sin necesidad de pointermove', () => {
+  const { control, dispatch, frames } = setup({ particleCount: 40, seed: 7 });
+  const before = distanceSum(control.getState().particles, 50, 50);
+  dispatch('pointerdown', { clientX: 50, clientY: 50 });
+  assert.equal(control.getState().pointerActive, true);
+  frames(30);
+  assert.ok(distanceSum(control.getState().particles, 50, 50) < before);
+});
+
 test('pointerup desactiva el imán en touch', () => {
   const { control, dispatch } = setup();
   dispatch('pointermove', { clientX: 10, clientY: 10 });

@@ -47,3 +47,11 @@ test('el reveal arranca oculto y se muestra con is-visible', () => {
 test('respeta prefers-reduced-motion', () => {
   assert.match(css, /@media\s*\(prefers-reduced-motion:\s*reduce\)/);
 });
+
+test('el contenido sigue visible sin JavaScript', () => {
+  assert.match(html, /<noscript>[\s\S]*\[data-reveal\][\s\S]*opacity:\s*1[\s\S]*<\/noscript>/);
+});
+
+test('el canvas permite el gesto touch sin cancelarse', () => {
+  assert.match(css, /\.hero__canvas\s*\{[^}]*touch-action:\s*none/);
+});

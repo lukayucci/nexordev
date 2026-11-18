@@ -121,11 +121,15 @@
             rafId = window.requestAnimationFrame(frame);
         }
 
-        function onPointerMove(event) {
-            if (destroyed || reducedMotion) return;
+        function trackPointer(event) {
             pointer.x = event.clientX;
             pointer.y = event.clientY;
             pointerActive = true;
+        }
+
+        function onPointerMove(event) {
+            if (destroyed || reducedMotion) return;
+            trackPointer(event);
         }
 
         function deactivate() {
@@ -134,12 +138,13 @@
 
         function onPointerDown(event) {
             if (destroyed || reducedMotion) return;
+            trackPointer(event);
             for (const particle of particles) {
                 const dx = particle.x - event.clientX;
                 const dy = particle.y - event.clientY;
                 const distance = Math.hypot(dx, dy) || 1;
                 if (distance < config.magnetRadius) {
-                    const force = (1 - distance / config.magnetRadius) * 6;
+                    const force = (1 - distance / config.magnetRadius) * 24;
                     particle.vx += dx / distance * force;
                     particle.vy += dy / distance * force;
                 }
