@@ -10,18 +10,16 @@
     const heroSection = document.querySelector(".hero");
     const heroContent = document.getElementById("hero-content");
     const heroCanvas = document.getElementById("hero-canvas");
-    const frameCounter = document.querySelector("[data-frame-counter]");
+    const progressCounter = document.querySelector("[data-progress-counter]");
     const heroLayers = Array.from(document.querySelectorAll("[data-hero-layer]"));
     const menuBtn = document.getElementById("menu-btn");
     const menu = document.getElementById("main-menu");
 
-    const FRAME_COUNT = 100;
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     let scrollFraction = 0;
-    let currentFrame = 0;
     let ticking = false;
 
-    const state = { fraction: 0, frame: 0, mouseX: 0, mouseY: 0 };
+    const state = { progress: 0, fraction: 0, frame: 0, mouseX: 0, mouseY: 0 };
     window.nexorState = state;
 
     // --- Menú ---
@@ -56,18 +54,18 @@
         const heroHeight = heroSection ? heroSection.offsetHeight : window.innerHeight * 4;
         const maxScroll = Math.max(1, heroHeight - window.innerHeight);
         scrollFraction = Math.max(0, Math.min(1, window.scrollY / maxScroll));
-        currentFrame = Math.floor(scrollFraction * (FRAME_COUNT - 1));
 
+        state.progress = scrollFraction;
         state.fraction = scrollFraction;
-        state.frame = currentFrame;
+        state.frame = Math.floor(scrollFraction * 99);
 
         const fadeStart = 0.86;
         const fade = scrollFraction > fadeStart
             ? Math.max(0, 1 - (scrollFraction - fadeStart) / (1 - fadeStart))
             : 1;
 
-        if (frameCounter) {
-            frameCounter.textContent = String(currentFrame + 1).padStart(3, "0");
+        if (progressCounter) {
+            progressCounter.textContent = String(Math.round(scrollFraction * 100)).padStart(3, "0");
         }
 
         if (heroCanvas) heroCanvas.style.opacity = String(fade);

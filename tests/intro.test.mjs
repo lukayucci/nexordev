@@ -5,10 +5,13 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
-const html = readFileSync(join(root, 'index.html'), 'utf8');
-const css = readFileSync(join(root, 'style.css'), 'utf8');
-const js = readFileSync(join(root, 'main.js'), 'utf8');
-const scene = readFileSync(join(root, 'scene.js'), 'utf8');
+function read(name) {
+  try { return readFileSync(join(root, name), 'utf8'); } catch { return ''; }
+}
+const html = read('index.html');
+const css = read('style.css');
+const js = read('main.js');
+const scene = read('scene.js');
 
 const hero = html.slice(html.indexOf('<section class="hero"'), html.indexOf('</section>', html.indexOf('<section class="hero"')));
 
@@ -16,40 +19,56 @@ test('el hero no tiene kicker generico', () => {
   assert.equal(hero.includes('hero__kicker'), false);
 });
 
-test('el hero expone un contador de frames', () => {
-  assert.match(hero, /data-frame-counter/);
+test('el hero expone un contador de progreso, no de frames', () => {
+  assert.match(hero, /data-progress-counter/);
+  assert.doesNotMatch(hero, /data-frame-counter/);
 });
 
 test('el hero tiene un solo CTA', () => {
   assert.equal((hero.match(/hero__cta/g) || []).length, 1);
 });
 
-test('mantiene el violeta de Nexor y el fondo negro', () => {
+test('mantiene el violeta de Nexor', () => {
   assert.match(css, /--accent:\s*#8c52ff/i);
-  assert.match(css, /--bg-color:\s*#000000/i);
   assert.doesNotMatch(css, /--signal/);
+});
+
+test('el canvas y el hero son transparentes', () => {
+  assert.match(css, /\.hero\s*\{[^}]*background(?:-color)?:\s*transparent/);
+  assert.match(css, /\.hero__sticky-container\s*\{[^}]*background(?:-color)?:\s*transparent/);
+  assert.doesNotMatch(css, /\.hero__sticky-container::before/);
+  assert.match(scene, /alpha:\s*true/);
+  assert.match(scene, /setClearColor\(0x000000,\s*0\)/);
 });
 
 test('no carga fuentes externas', () => {
   assert.doesNotMatch(html, /fonts\.googleapis/);
 });
 
-test('la foto se mueve en una escena 3D hecha con JavaScript', () => {
+test('la intro es una X tecnologica que se convierte en NEXOR', () => {
   assert.match(html, /src="scene\.js"/);
   assert.match(scene, /import \* as THREE/);
   assert.match(scene, /WebGLRenderer/);
-  assert.match(scene, /ezgif-frame-/);
+  assert.match(scene, /const word = "NEXOR"/);
+  assert.doesNotMatch(scene, /ezgif-frame-/);
 });
 
-test('main.js ya no dibuja la foto en canvas 2D', () => {
+test('main.js ya no dibuja la secuencia de frames en canvas 2D', () => {
   assert.doesNotMatch(js, /getContext\("2d"\)/);
+  assert.doesNotMatch(js, /ezgif-frame-/);
 });
 
-test('el JS actualiza el contador', () => {
-  assert.match(js, /frameCounter/);
+test('el JS actualiza el contador de progreso', () => {
+  assert.match(js, /progressCounter/);
 });
 
 test('se mantiene el parallax por scroll', () => {
   assert.match(js, /scrollFraction/);
   assert.match(js, /requestAnimationFrame/);
+});
+
+test('el video de la maquina queda de fondo y el canvas transparente va encima', () => {
+  assert.match(css, /\.hero__video\s*\{[^}]*display:\s*block/);
+  assert.match(css, /\.hero__canvas\s*\{[^}]*z-index:\s*1/);
+  assert.match(scene, /video\.style\.display\s*=\s*"block"/);
 });

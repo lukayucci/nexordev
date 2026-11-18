@@ -54,7 +54,7 @@ function setup({ reduceMotion = false } = {}) {
       }[id] ?? null;
     },
     querySelector(selector) {
-      return { '.hero': hero, '[data-frame-counter]': counter }[selector] ?? null;
+      return { '.hero': hero, '[data-progress-counter]': counter }[selector] ?? null;
     },
     querySelectorAll(selector) {
       return selector === '[data-hero-layer]' ? layers : [];
@@ -105,6 +105,7 @@ test('el estado del scroll se publica para la escena 3D', () => {
   scrollTo(2000);
 
   assert.ok(Math.abs(fakeWindow.nexorState.fraction - 2 / 3) < 0.001);
+  assert.ok(Math.abs(fakeWindow.nexorState.progress - 2 / 3) < 0.001);
   assert.equal(fakeWindow.nexorState.frame, 66);
   assert.equal(typeof fakeWindow.nexorState.mouseX, 'number');
 });

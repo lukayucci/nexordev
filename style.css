@@ -203,7 +203,7 @@ a {
 .hero {
     height: 400vh;
     position: relative;
-    background-color: #000000;
+    background: transparent;
 }
 
 .hero__sticky-container {
@@ -212,22 +212,7 @@ a {
     height: 100vh;
     width: 100%;
     overflow: hidden;
-    background-color: #000000;
-}
-
-.hero__sticky-container::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    pointer-events: none;
-    background: linear-gradient(
-        180deg,
-        rgba(0, 0, 0, 0.55) 0%,
-        rgba(0, 0, 0, 0) 22%,
-        rgba(0, 0, 0, 0) 68%,
-        rgba(0, 0, 0, 0.72) 100%
-    );
+    background: transparent;
 }
 
 .hero__canvas,
@@ -241,6 +226,8 @@ a {
 
 .hero__canvas {
     display: none;
+    z-index: 1;
+    pointer-events: none;
 }
 
 .hero__video {
